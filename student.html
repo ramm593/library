@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mwenge - Student</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar h2 {
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea20, #764ba220);
+            border-radius: 50%;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5em;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .student-info h3 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .student-info p {
+            color: #718096;
+            margin: 5px 0;
+        }
+
+        .reg-input {
+            margin-left: auto;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .reg-input input {
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            width: 250px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .reg-input input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        .reg-input button {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .reg-input button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+        }
+
+        .student-selector {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .student-selector label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .student-selector select {
+            padding: 12px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1em;
+            min-width: 250px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .student-selector select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+
+        .student-selector select:hover {
+            border-color: #667eea;
+        }
+
+        .student-count {
+            margin-left: auto;
+            background: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: #f7fafc url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23718096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>') no-repeat 15px center;
+        }
+
+        .search-box input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+            background-color: white;
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #2c3e50;
+            margin: 40px 0 25px;
+            border-left: 5px solid #667eea;
+            padding-left: 20px;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        .book-cover {
+            height: 180px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-cover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+        }
+
+        .book-details {
+            padding: 25px;
+        }
+
+        .book-details h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 1.3em;
+        }
+
+        .book-details p {
+            color: #718096;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 25px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 15px 0;
+        }
+
+        .available {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .borrowed {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .request-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .request-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .request-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .requests-table {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            overflow-x: auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f7fafc;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #2d3748;
+        }
+
+        tr:hover td {
+            background: #f7fafc;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fefcbf;
+            color: #975a16;
+        }
+
+        .status-approved {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-rejected {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.success {
+            border-left: 4px solid #48bb78;
+        }
+
+        .toast.error {
+            border-left: 4px solid #f56565;
+        }
+
+        .toast.info {
+            border-left: 4px solid #4299e1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .modal p {
+            color: #718096;
+            margin-bottom: 25px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.confirm {
+            background: #48bb78;
+            color: white;
+        }
+
+        .modal-btn.cancel {
+            background: #cbd5e0;
+            color: #4a5568;
+        }
+
+        .modal-btn.confirm:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn.cancel:hover {
+            background: #a0aec0;
+        }
+    </style>
+</head>
+<body>
+    <div class="toast" id="toast">
+        <i>📌</i>
+        <span id="toastMessage"></span>
+    </div>
+
+    <div class="modal" id="requestModal">
+        <div class="modal-content">
+            <h3>📖 Confirm Request</h3>
+            <p id="modalBookInfo"></p>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" id="confirmRequest">Yes, Request</button>
+                <button class="modal-btn cancel" id="cancelRequest">No</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <h2>📘 Mwenge Library - Student</h2>
+        <div class="nav-links">
+            <a href="index.html">🏠 Home</a>
+            <a href="#" onclick="showMyBooks()">📚 My Books</a>
+            <a href="#" onclick="showHistory()">📜 History</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-avatar" id="studentAvatar">J</div>
+            <div class="student-info">
+                <h3 id="studentName">abbubakar amin</h3>
+                <p>🏫 Form 6 • Mwenge Secondary</p>
+                <p><strong>📋 Reg No: <span id="regNumber">S.0334-0971</span></strong></p>
+            </div>
+            <div class="reg-input">
+                <input type="text" id="regInput" placeholder="Enter Reg No" value="S.0334-0971">
+                <button onclick="updateRegNumber()">💾 Update</button>
+            </div>
+        </div>
+
+        <!-- Student Selector - 31 Students -->
+        <div class="student-selector">
+            <label>👥 Select Student:</label>
+            <select id="studentSelector" onchange="changeStudent()">
+                <!-- Options will be loaded here via JavaScript -->
+            </select>
+            <div class="student-count" id="studentCount">31 Students</div>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search book by title or author..." onkeyup="searchBooks()">
+        </div>
+
+        <h2 class="section-title">📖 Available Books</h2>
+        <div class="books-grid" id="booksGrid">
+            <!-- Books will be loaded here via JavaScript -->
+        </div>
+
+        <h2 class="section-title">📋 My Requests</h2>
+        <div class="requests-table" id="requestsTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="requestsBody">
+                    <!-- Requests will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2026 - Mwenge Secondary School Library. All rights reserved.</p>
+    </div>
+
+    <script>
+        // Generate 31 students with registration numbers from S.0334-0971 to S.0334-1001
+        function generateStudents() {
+            const students = [];
+            const startReg = 971; // S.0334-0971
+            const endReg = 1001;   // S.0334-1001
+            
+            for (let i = startReg; i <= endReg; i++) {
+                // Format registration number with leading zeros
+                const regNumber = `S.0334-${i.toString().padStart(4, '0')}`;
+                
+                // Generate arranged student names
+                const firstNames = ['ABBUBAKAR AMIN', 'BARAKA THADEI', 'DANIEL MARTIN', 'EDWIN SAMWEL', 'ELISHA BOAZ', 'EMMANUEL STIVIN', 'EMMANUEL JOEL', 'EMMANUEL MAYEGA', 'ERRIC CHACHA', 'FINEHAS ELIEZELI', 
+                                   'GEORGE ALOYCE', 'GODBLESS PETER', 'IZRAEL PHILIMON', 'JOVIN MAJUTO', 'KELVIN DANIEL', 'KULWA DIONIZ', 'MAYANGA JOSEPH', 'MENG`ORIKI SAIGILU', 'MUSSA HAMIS', 'MWITA IBRAHIM',
+                                   'PETER MICHAEL', 'PETRO LUSANIKA', 'RAMADHAN MSTAPHA', 'REUBEN SAMWEL', 'SAMSON MAHUSHI', 'SHABAN MOHAMED', 'SITTA BADO', 'THADEUS JOSEPH', 'WASTARA SAID', 'YEHU DANIEL',
+                                    'ZUBER HAJI'];
+                
+                const lastNames = ['', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', ''];
+                
+                const randomFirst = firstNames[Math.floor(Math.random() * firstNames.length)];
+                const randomLast = lastNames[Math.floor(Math.random() * lastNames.length)];
+                const fullName = `${randomFirst} ${randomLast}`;
+                
+                // Random form (5-6)
+                const form = 12-6;
+                
+                students.push({
+                    regNumber: regNumber,
+                    name: fullName,
+                    form: form,
+                    avatar: randomFirst.charAt(0)
+                });
+            }
+            
+            return students;
+        }
+
+        const students = generateStudents();
+        
+        // Sample books data
+        let books = [
+            { id: 1, title: "Essay Writing Guide", author: "K. Mwakyembe", isbn: "978-1234", category: "Language", available: true },
+            { id: 2, title: "History of East Africa", author: "J. Mushi", isbn: "978-5678", category: "History", available: true },
+            { id: 3, title: "Mathematics Form 6", author: "T. Temba", isbn: "978-9101", category: "Mathematics", available: false },
+            { id: 4, title: "Physics Practicals", author: "S. Nkya", isbn: "978-1122", category: "Science", available: true },
+            { id: 5, title: "Chemistry Form 6", author: "P. Mwenda", isbn: "978-3344", category: "Science", available: true },
+            { id: 6, title: "Biology Advanced", author: "R. Kisanga", isbn: "978-5566", category: "Science", available: true },
+            { id: 7, title: "English Literature", author: "E. Wamitila", isbn: "978-7788", category: "Language", available: false },
+            { id: 8, title: "Geography of Tanzania", author: "A. Mfinanga", isbn: "978-9900", category: "Geography", available: true },
+            { id: 9, title: "Kiswahili Fasaha", author: "S. Mushi", isbn: "978-1011", category: "Language", available: true },
+            { id: 10, title: "Civics Form 6", author: "J. Nyerere", isbn: "978-1213", category: "Social Studies", available: true },
+            { id: 11, title: "Biology Form 6", author: "R. Kisanga", isbn: "978-1415", category: "Science", available: true },
+            { id: 12, title: "Chemistry Practicals", author: "P. Mwenda", isbn: "978-1617", category: "Science", available: false }
+        ];
+
+        // Sample requests data for different students
+        let allRequests = [
+            { id: 1, regNumber: "S.0334-0971", bookTitle: "Essay Writing Guide", date: "2026-03-10", status: "pending" },
+            { id: 2, regNumber: "S.0334-0972", bookTitle: "Biology Form 6", date: "2026-03-05", status: "approved" },
+            { id: 3, regNumber: "S.0334-0973", bookTitle: "Physics Practicals", date: "2026-03-11", status: "pending" },
+            { id: 4, regNumber: "S.0334-0974", bookTitle: "History of East Africa", date: "2026-03-09", status: "approved" },
+            { id: 5, regNumber: "S.0334-0975", bookTitle: "Mathematics Form 6", date: "2026-03-08", status: "rejected" },
+            { id: 6, regNumber: "S.0334-0976", bookTitle: "Chemistry Form 6", date: "2026-03-07", status: "pending" },
+            { id: 7, regNumber: "S.0334-0977", bookTitle: "English Literature", date: "2026-03-06", status: "approved" },
+            { id: 8, regNumber: "S.0334-0978", bookTitle: "Geography of Tanzania", date: "2026-03-05", status: "pending" },
+            { id: 9, regNumber: "S.0334-0979", bookTitle: "Kiswahili Fasaha", date: "2026-03-04", status: "approved" },
+            { id: 10, regNumber: "S.0334-0980", bookTitle: "Civics Form 6", date: "2026-03-03", status: "pending" },
+            { id: 11, regNumber: "S.0334-0981", bookTitle: "Biology Form 6", date: "2026-03-02", status: "approved" },
+            { id: 12, regNumber: "S.0334-0982", bookTitle: "Chemistry Practicals", date: "2026-03-01", status: "rejected" },
+            { id: 13, regNumber: "S.0334-0983", bookTitle: "Essay Writing Guide", date: "2026-02-28", status: "approved" },
+            { id: 14, regNumber: "S.0334-0984", bookTitle: "History of East Africa", date: "2026-02-27", status: "pending" },
+            { id: 15, regNumber: "S.0334-0985", bookTitle: "Physics Practicals", date: "2026-02-26", status: "approved" },
+            { id: 16, regNumber: "S.0334-0986", bookTitle: "Mathematics Form 6", date: "2026-02-25", status: "pending" },
+            { id: 17, regNumber: "S.0334-0987", bookTitle: "Chemistry Form 6", date: "2026-02-24", status: "approved" },
+            { id: 18, regNumber: "S.0334-0988", bookTitle: "Biology Advanced", date: "2026-02-23", status: "rejected" },
+            { id: 19, regNumber: "S.0334-0989", bookTitle: "English Literature", date: "2026-02-22", status: "pending" },
+            { id: 20, regNumber: "S.0334-0990", bookTitle: "Geography of Tanzania", date: "2026-02-21", status: "approved" },
+            { id: 21, regNumber: "S.0334-0991", bookTitle: "Kiswahili Fasaha", date: "2026-02-20", status: "pending" },
+            { id: 22, regNumber: "S.0334-0992", bookTitle: "Civics Form 6", date: "2026-02-19", status: "approved" },
+            { id: 23, regNumber: "S.0334-0993", bookTitle: "Biology Form 6", date: "2026-02-18", status: "pending" },
+            { id: 24, regNumber: "S.0334-0994", bookTitle: "Chemistry Practicals", date: "2026-02-17", status: "approved" },
+            { id: 25, regNumber: "S.0334-0995", bookTitle: "Essay Writing Guide", date: "2026-02-16", status: "rejected" },
+            { id: 26, regNumber: "S.0334-0996", bookTitle: "History of East Africa", date: "2026-02-15", status: "pending" },
+            { id: 27, regNumber: "S.0334-0997", bookTitle: "Physics Practicals", date: "2026-02-14", status: "approved" },
+            { id: 28, regNumber: "S.0334-0998", bookTitle: "Mathematics Form 6", date: "2026-02-13", status: "pending" },
+            { id: 29, regNumber: "S.0334-0999", bookTitle: "Chemistry Form 6", date: "2026-02-12", status: "approved" },
+            { id: 30, regNumber: "S.0334-1000", bookTitle: "Biology Advanced", date: "2026-02-11", status: "pending" },
+            { id: 31, regNumber: "S.0334-1001", bookTitle: "English Literature", date: "2026-02-10", status: "approved" }
+        ];
+
+        // Current student's requests (filtered)
+        let myRequests = [];
+
+        // Toast function
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toast.className = 'toast ' + type;
+            toastMessage.textContent = message;
+            toast.style.display = 'flex';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Load student selector
+        function loadStudentSelector() {
+            const selector = document.getElementById('studentSelector');
+            selector.innerHTML = '';
+            
+            students.forEach((student, index) => {
+                const option = document.createElement('option');
+                option.value = student.regNumber;
+                option.textContent = `${student.name} - ${student.regNumber} (Form ${student.form})`;
+                if (index === 0) option.selected = true;
+                selector.appendChild(option);
+            });
+            
+            document.getElementById('studentCount').textContent = `${students.length} Students`;
+        }
+
+        // Change student
+        function changeStudent() {
+            const selector = document.getElementById('studentSelector');
+            const selectedReg = selector.value;
+            const student = students.find(s => s.regNumber === selectedReg);
+            
+            if (student) {
+                document.getElementById('studentName').textContent = student.name;
+                document.getElementById('regNumber').textContent = student.regNumber;
+                document.getElementById('regInput').value = student.regNumber;
+                document.getElementById('studentAvatar').textContent = student.avatar;
+                
+                // Update student info paragraph
+                const infoPara = document.querySelector('.student-info p');
+                infoPara.innerHTML = `🏫 Form ${student.form} • Mwenge Secondary`;
+                
+                // Load requests for this student
+                myRequests = allRequests.filter(r => r.regNumber === student.regNumber);
+                loadRequests();
+                
+                showToast(`✓ Switched to ${student.name}`, 'success');
+            }
+        }
+
+        // Load books
+        function loadBooks() {
+            const booksGrid = document.getElementById('booksGrid');
+            booksGrid.innerHTML = '';
+            
+            books.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                bookCard.innerHTML = `
+                    <div class="book-cover">${getBookEmoji(book.category)}</div>
+                    <div class="book-details">
+                        <h3>${book.title}</h3>
+                        <p>✍️ ${book.author}</p>
+                        <p>📌 ISBN: ${book.isbn}</p>
+                        <p>📚 Category: ${book.category}</p>
+                        <span class="status ${book.available ? 'available' : 'borrowed'}">
+                            ${book.available ? '✓ Available' : '✗ Borrowed'}
+                        </span>
+                        <button class="request-btn" ${!book.available ? 'disabled' : ''} onclick="openRequestModal(${book.id}, '${book.title}')">
+                            ${book.available ? '📥 Request Book' : '❌ Unavailable'}
+                        </button>
+                    </div>
+                `;
+                booksGrid.appendChild(bookCard);
+            });
+        }
+
+        function getBookEmoji(category) {
+            const emojis = {
+                'Language': '📖',
+                'History': '📜',
+                'Mathematics': '➗',
+                'Science': '🔬',
+                'Geography': '🌍',
+                'Social Studies': '🏛️'
+            };
+            return emojis[category] || '📘';
+        }
+
+        // Load requests for current student
+        function loadRequests() {
+            const tbody = document.getElementById('requestsBody');
+            tbody.innerHTML = '';
+            
+            if (myRequests.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="4" style="text-align: center; color: #718096;">No requests found for this student</td>`;
+                tbody.appendChild(row);
+                return;
+            }
+            
+            myRequests.forEach(request => {
+                const row = document.createElement('tr');
+                const statusClass = request.status === 'pending' ? 'status-pending' : 
+                                   request.status === 'approved' ? 'status-approved' : 'status-rejected';
+                
+                const statusText = request.status === 'pending' ? 'Pending' :
+                                  request.status === 'approved' ? 'Approved' : 'Rejected';
+                
+                row.innerHTML = `
+                    <td>${request.bookTitle}</td>
+                    <td>${request.date}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        ${request.status === 'pending' ? 
+                            '<button onclick="cancelRequest(' + request.id + ')" style="padding:5px 10px; background:#f56565; color:white; border:none; border-radius:5px; cursor:pointer;">✗ Cancel</button>' : 
+                            '-'}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Modal functionality
+        let currentBookId = null;
+        let currentBookTitle = '';
+
+        function openRequestModal(bookId, bookTitle) {
+            currentBookId = bookId;
+            currentBookTitle = bookTitle;
+            document.getElementById('modalBookInfo').textContent = `Do you want to request: "${bookTitle}"?`;
+            document.getElementById('requestModal').style.display = 'flex';
+        }
+
+        document.getElementById('confirmRequest').addEventListener('click', function() {
+            const regNumber = document.getElementById('regNumber').textContent;
+            
+            if (regNumber && regNumber.match(/^S\.\d{4}-\d{4}$/)) {
+                // Add request
+                const newRequest = {
+                    id: allRequests.length + 1,
+                    regNumber: regNumber,
+                    bookTitle: currentBookTitle,
+                    date: new Date().toISOString().split('T')[0],
+                    status: 'pending'
+                };
+                
+                allRequests.push(newRequest);
+                myRequests.push(newRequest);
+                
+                // Update book availability
+                const bookIndex = books.findIndex(b => b.id === currentBookId);
+                if (bookIndex !== -1) {
+                    books[bookIndex].available = false;
+                }
+                
+                loadBooks();
+                loadRequests();
+                document.getElementById('requestModal').style.display = 'none';
+                showToast('✓ Your request has been sent!', 'success');
+            } else {
+                showToast('✗ Please enter a valid Registration Number', 'error');
+            }
+        });
+
+        document.getElementById('cancelRequest').addEventListener('click', function() {
+            document.getElementById('requestModal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('requestModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Search books
+        function searchBooks() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const bookCards = document.querySelectorAll('.book-card');
+            
+            bookCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const author = card.querySelector('p:first-of-type').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || author.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Update registration number
+        function updateRegNumber() {
+            const newReg = document.getElementById('regInput').value.trim();
+            
+            if (newReg === '') {
+                showToast('✗ Please enter registration number', 'error');
+                return;
+            }
+            
+            if (!newReg.match(/^S\.\d{4}-\d{4}$/)) {
+                showToast('✗ Correct format: S.0000-0000', 'error');
+                return;
+            }
+            
+            // Check if student exists
+            const student = students.find(s => s.regNumber === newReg);
+            if (student) {
+                document.getElementById('regNumber').textContent = newReg;
+                document.getElementById('studentName').textContent = student.name;
+                document.getElementById('studentAvatar').textContent = student.avatar;
+                
+                // Update selector
+                const selector = document.getElementById('studentSelector');
+                for (let i = 0; i < selector.options.length; i++) {
+                    if (selector.options[i].value === newReg) {
+                        selector.selectedIndex = i;
+                        break;
+                    }
+                }
+                
+                // Load requests for this student
+                myRequests = allRequests.filter(r => r.regNumber === newReg);
+                loadRequests();
+                
+                showToast('✓ Student information updated!', 'success');
+            } else {
+                showToast('✗ Student not found in database', 'error');
+            }
+        }
+
+        // Cancel request
+        function cancelRequest(requestId) {
+            if (confirm('Are you sure you want to cancel this request?')) {
+                // Remove from allRequests
+                allRequests = allRequests.filter(r => r.id !== requestId);
+                // Remove from myRequests
+                myRequests = myRequests.filter(r => r.id !== requestId);
+                
+                // Update book availability (find the book and make it available again)
+                const cancelledRequest = allRequests.find(r => r.id === requestId);
+                if (cancelledRequest) {
+                    const book = books.find(b => b.title === cancelledRequest.bookTitle);
+                    if (book) {
+                        book.available = true;
+                    }
+                }
+                
+                loadBooks();
+                loadRequests();
+                showToast('✓ Request cancelled', 'info');
+            }
+        }
+
+        // Navigation functions
+        function showMyBooks() {
+            const borrowedBooks = myRequests.filter(r => r.status === 'approved');
+            let message = 'Books you have borrowed:\n';
+            borrowedBooks.forEach(b => {
+                message += `- ${b.bookTitle}\n`;
+            });
+            alert(message || 'You have not borrowed any books');
+        }
+
+        function showHistory() {
+            const allRequests = myRequests.map(r => 
+                `${r.bookTitle} - ${r.date} (${r.status})`
+            ).join('\n');
+            alert('Request history:\n' + (allRequests || 'No history'));
+        }
+
+        // Initialize with first student
+        function initializeFirstStudent() {
+            const firstStudent = students[0];
+            document.getElementById('studentName').textContent = firstStudent.name;
+            document.getElementById('regNumber').textContent = firstStudent.regNumber;
+            document.getElementById('regInput').value = firstStudent.regNumber;
+            document.getElementById('studentAvatar').textContent = firstStudent.avatar;
+            
+            const infoPara = document.querySelector('.student-info p');
+            infoPara.innerHTML = `🏫 Form ${firstStudent.form} • Mwenge Secondary`;
+            
+            myRequests = allRequests.filter(r => r.regNumber === firstStudent.regNumber);
+        }
+
+        // Initial load
+        loadStudentSelector();
+        initializeFirstStudent();
+        loadBooks();
+        loadRequests();
+    </script>
+</body>
+</html>
